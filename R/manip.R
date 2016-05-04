@@ -1,3 +1,11 @@
+#' @export ManipEnvironment
+#' @keywords internal
+#' @importFrom R6 R6Class
+ManipEnvironment <- R6Class('ManipEnvironment',
+  inherit = EdmlEnvironment
+)
+
+
 #' Create an manip evaluation environment.
 #' TODO: add documentation
 #'
@@ -5,9 +13,11 @@
 #'
 #' @export
 manip <- function(x, text) {
-  p = parse(text = text, keep.source = TRUE)
-  d = getParseData(p)
-  return(d)
+  manip_env <- new.env()
+  class(manip_env) <- c("environment", "manipEnvironment")
+
+
+  eval(parse(text = quote(text)), envir = manip_env)
 }
 
 #' Determines which actions to perform on numerics.
@@ -16,6 +26,7 @@ manip <- function(x, text) {
 #'
 #' @export
 numerics <- function(text) {
+  eval(parse(text = quote(text)))
 }
 
 #' Remove outliers.
@@ -31,7 +42,8 @@ remove_outliers <- function(...) {
 #'
 #'
 #' @export
-transform <- function(...) {
+transform <- function(text, func, keep = TRUE) {
+  eval(parse(text = quote(text)))
 }
 
 #' Set column numbers of variables.
@@ -39,6 +51,7 @@ transform <- function(...) {
 #'
 #'
 #' @export
-`.` <- function(...) {
+`.` <- function(..., edml_object, parent_function) {
+  browser()
 }
 
