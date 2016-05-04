@@ -1,0 +1,41 @@
+---
+title: "EDML -- Easy Data Mining Language"
+author: "Anton Bossenbroek"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Easy Data Mining Language Design}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+The Easy Data Mining Language (EDML) is a domain specific language specially developed
+to make the task of data mining easier, more transparant and computationally
+faster. The goal of the package is to create a language similar to ggplot and
+plyr but then for data mining. Some would argue that R is exactly that,
+however, we argue that R is somewhere between a statistical language and a
+programming language with many packages that interact poorly together. We seek
+to create programming environment on top of R so that you can do repetitive
+tasks quickly in EDML and focus on the statistical modeling. We seek to keep
+the language as comprehensible and task oriented as possible while executing
+all the tasks in data.table, monetdb, SparkR or H2O. This way you get high performance
+computing with easy syntax.
+
+# Use
+
+## Simple case
+```{r, eval=FALSE}
+require(pipeR)
+edml(iris) %>>% manip({
+  numerics({
+    remove_outliers(method = 'winsor')
+
+    transform(.(), log)
+
+    transform(.(1 : 2), sqrt, keep = FALSE)
+  })
+})
+```
+
+
