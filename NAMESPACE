@@ -3,6 +3,7 @@
 export(.)
 export(EdmlEnvironment)
 export(ManipEnvironment)
+export(SyntaxNode)
 export(edml)
 export(manip)
 export(numerics)

@@ -68,7 +68,11 @@ SyntaxNode <- R6Class("SyntaxNode",
       if (is.null(self$parent))
         stop("self$parent is not set so will be unable to set root")
 
-      self$root <- self$parent$get_root()
+      # Make sure that the first level will have root set to their parent and
+      # the levels deeper will have the root equal to their parent's root.
+      if (is.null(self$parent$get_root())) self$root = self$parent
+      else self$root = self$parent$root
+
     },
     get_root = function() {
       self$root
@@ -95,7 +99,8 @@ SyntaxNode <- R6Class("SyntaxNode",
       return(to_return)
     },
     search_id = function(id) {
-      self$root$search_id_from_node(id)
+      if (!is.null(self$root)) self$root$search_id_from_node(id)
+      else self$search_id_from_node(id)
     },
     print = function(level = 0) {
       if (is.null(self$parent)) {
